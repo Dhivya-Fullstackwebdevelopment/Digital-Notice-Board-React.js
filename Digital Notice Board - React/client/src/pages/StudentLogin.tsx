@@ -8,13 +8,13 @@ import { GraduationCap, User, Lock } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import clgImage from "../images/clg.jpeg";
 
-// Background Image - High quality academic background
+// Background Image
 const BG_URL = clgImage;
 
 export default function StudentLogin() {
-    const [, setLocation] = useLocation();
     const [studentId, setStudentId] = useState("");
     const [password, setPassword] = useState("");
+    const [location, setLocation] = useLocation();
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -22,6 +22,7 @@ export default function StudentLogin() {
         if (studentId.length > 3 && password === "student123") {
             localStorage.setItem("userRole", "student");
             localStorage.setItem("studentId", studentId);
+            // navigate("/Home");
             setLocation("/Home");
         } else {
             alert("Invalid Student ID or Password (Try: student123)");
@@ -30,7 +31,8 @@ export default function StudentLogin() {
 
     return (
         <div className="min-h-screen relative flex flex-col overflow-hidden">
-            <Navbar />
+            {/* <Navbar /> */}
+            <Navbar hideNav={true} />
 
             {/* Background Layer with Parallax Effect */}
             <div
@@ -87,7 +89,7 @@ export default function StudentLogin() {
 
                                 <Button
                                     type="submit"
-                                    className="w-full rounded-xl py-6 text-lg font-bold shadow-2xl hover:scale-[1.02] active:scale-95 transition-all"
+                                    className="w-full rounded-xl py-2 text-lg font-bold shadow-2xl hover:scale-[1.02] active:scale-95 transition-all"
                                 >
                                     Enter Campus
                                 </Button>
@@ -95,7 +97,7 @@ export default function StudentLogin() {
 
                             <div className="mt-6 text-center">
                                 <p className="text-xs text-muted-foreground">
-                                    Forgot credentials? Contact your HOD
+                                    Forgot credentials? Contact your Deparment staff
                                 </p>
                             </div>
                         </CardContent>
