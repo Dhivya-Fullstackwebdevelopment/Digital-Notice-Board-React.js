@@ -14,7 +14,7 @@ export default function Navbar({ hideNav = false }: NavbarProps) {
   const notificationCount = 3; 
 
   const navItems = [
-    { name: "Home", href: "/", icon: LayoutDashboard },
+    { name: "Home", href: "/Home", icon: LayoutDashboard },
     { name: "Notice Board", href: "/notices", icon: Bell },
     { name: "Complaint Box", href: "/complaint", icon: MessageSquare },
   ];

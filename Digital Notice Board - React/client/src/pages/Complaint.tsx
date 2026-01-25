@@ -8,12 +8,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { ShieldAlert, Send, CheckCircle2 } from "lucide-react";
+import { ShieldAlert, Send, CheckCircle2, User } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 
+// Updated Schema with Name field
 const formSchema = z.object({
+  name: z.string().optional(), // Optional to maintain anonymity
   category: z.string().min(1, "Please select a category"),
   subject: z.string().min(5, "Subject must be at least 5 characters"),
   description: z.string().min(20, "Please provide more details (at least 20 characters)"),
@@ -27,6 +29,7 @@ export default function Complaint() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: "",
       category: "",
       subject: "",
       description: "",
@@ -35,11 +38,11 @@ export default function Complaint() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    console.log("Form Values:", values);
     setIsSubmitted(true);
     toast({
       title: "Complaint Filed Securely",
-      description: "Your report has been submitted anonymously. Your reference ID: CC-9821",
+      description: "Your report has been submitted. Your reference ID: CC-9821",
     });
   }
 
@@ -59,7 +62,7 @@ export default function Complaint() {
           </motion.div>
           <h1 className="text-4xl md:text-5xl font-heading font-bold mb-4">Secure Complaint Box</h1>
           <p className="text-muted-foreground text-lg italic max-w-2xl mx-auto">
-            Report ragging, harassment, or facility issues without fear. Your identity remains 100% hidden.
+            Report ragging, harassment, or facility issues without fear. Your identity remains protected.
           </p>
         </div>
 
@@ -81,6 +84,32 @@ export default function Complaint() {
                 <CardContent>
                   <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                      
+                      {/* New Name Field */}
+                      <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Full Name</FormLabel>
+                            <FormControl>
+                              <div className="relative">
+                                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                                <Input 
+                                  placeholder="Leave blank to remain anonymous" 
+                                  className="pl-10"
+                                  {...field} 
+                                />
+                              </div>
+                            </FormControl>
+                            <FormDescription>
+                              Only authorized personnel will see this if provided.
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <FormField
                           control={form.control}
@@ -90,7 +119,7 @@ export default function Complaint() {
                               <FormLabel>Issue Category</FormLabel>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
-                                  <SelectTrigger data-testid="select-category">
+                                  <SelectTrigger>
                                     <SelectValue placeholder="Select category" />
                                   </SelectTrigger>
                                 </FormControl>
@@ -114,7 +143,7 @@ export default function Complaint() {
                               <FormLabel>Your Department</FormLabel>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
-                                  <SelectTrigger data-testid="select-department">
+                                  <SelectTrigger>
                                     <SelectValue placeholder="Select department" />
                                   </SelectTrigger>
                                 </FormControl>
@@ -139,11 +168,7 @@ export default function Complaint() {
                           <FormItem>
                             <FormLabel>Subject</FormLabel>
                             <FormControl>
-                              <Input 
-                                placeholder="Brief summary of the issue" 
-                                {...field} 
-                                data-testid="input-subject"
-                              />
+                              <Input placeholder="Brief summary of the issue" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -158,15 +183,11 @@ export default function Complaint() {
                             <FormLabel>Detailed Description</FormLabel>
                             <FormControl>
                               <Textarea 
-                                placeholder="Describe the incident, location, and people involved (if any)"
+                                placeholder="Describe the incident, location, and people involved"
                                 className="min-h-[150px] resize-none"
                                 {...field}
-                                data-testid="textarea-description"
                               />
                             </FormControl>
-                            <FormDescription>
-                              Your description will be shared with the relevant authorities anonymously.
-                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -175,10 +196,9 @@ export default function Complaint() {
                       <Button 
                         type="submit" 
                         size="lg" 
-                        className="w-full rounded-full shadow-lg shadow-primary/20 gap-2"
-                        data-testid="button-submit-complaint"
+                        className="w-full rounded-full shadow-lg shadow-primary/20 gap-2 transition-transform hover:scale-[1.01]"
                       >
-                        Submit Anonymously
+                        Submit Report
                         <Send className="w-4 h-4" />
                       </Button>
                     </form>
@@ -198,13 +218,13 @@ export default function Complaint() {
               </div>
               <h2 className="text-3xl font-heading font-bold mb-4">Report Submitted</h2>
               <p className="text-muted-foreground mb-8 max-w-sm mx-auto">
-                Thank you for speaking up. Your report has been successfully filed. 
-                Keep your reference ID for tracking: <span className="font-mono font-bold text-primary">CC-9821</span>
+                Your report has been successfully filed. 
+                Reference ID: <span className="font-mono font-bold text-primary">CC-9821</span>
               </p>
               <Button 
                 variant="outline" 
                 onClick={() => setIsSubmitted(false)}
-                className="rounded-full"
+                className="rounded-full px-8"
               >
                 File Another Report
               </Button>
