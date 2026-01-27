@@ -91,7 +91,8 @@ export default function StudentLogin() {
                                     type="submit"
                                     className="w-full rounded-xl py-2 text-lg font-bold shadow-2xl hover:scale-[1.02] active:scale-95 transition-all"
                                 >
-                                    Enter Campus
+                                    {/* Enter Campus */}
+                                    Login
                                 </Button>
                             </form>
 

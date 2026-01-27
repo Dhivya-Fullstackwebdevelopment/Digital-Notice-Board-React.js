@@ -8,14 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { ShieldAlert, Send, CheckCircle2, User } from "lucide-react";
+import { ShieldAlert, Send, CheckCircle2, User, Lock, FileText, EyeOff, Scale } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 
-// Updated Schema with Name field
 const formSchema = z.object({
-  name: z.string().optional(), // Optional to maintain anonymity
+  name: z.string().optional(),
   category: z.string().min(1, "Please select a category"),
   subject: z.string().min(5, "Subject must be at least 5 characters"),
   description: z.string().min(20, "Please provide more details (at least 20 characters)"),
@@ -38,7 +37,6 @@ export default function Complaint() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Form Values:", values);
     setIsSubmitted(true);
     toast({
       title: "Complaint Filed Securely",
@@ -47,10 +45,22 @@ export default function Complaint() {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-12">
+    <div className="min-h-screen bg-white pt-24 pb-12 relative overflow-hidden">
       <Navbar />
+
+      {/* --- BACKGROUND DECORATION START --- */}
+      {/* Subtle floating icons related to security and reporting */}
+      <div className="absolute inset-0 pointer-events-none select-none overflow-hidden opacity-[0.03]">
+        <ShieldAlert className="absolute top-20 left-[10%] w-64 h-64 -rotate-12" />
+        <Lock className="absolute top-[40%] right-[5%] w-48 h-48 rotate-12" />
+        <FileText className="absolute bottom-[10%] left-[5%] w-56 h-56 rotate-45" />
+        <EyeOff className="absolute top-[15%] right-[15%] w-40 h-40 -rotate-12" />
+        <Scale className="absolute bottom-[20%] right-[10%] w-72 h-72 rotate-6" />
+        <ShieldAlert className="absolute bottom-[-5%] left-[40%] w-40 h-40" />
+      </div>
+      {/* --- BACKGROUND DECORATION END --- */}
       
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-4xl mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -60,7 +70,7 @@ export default function Complaint() {
             <ShieldAlert className="w-4 h-4" />
             <span>Anonymous & Secure</span>
           </motion.div>
-          <h1 className="text-4xl md:text-5xl font-heading font-bold mb-4">Secure Complaint Box</h1>
+          <h1 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">Secure Complaint Box</h1>
           <p className="text-muted-foreground text-lg italic max-w-2xl mx-auto">
             Report ragging, harassment, or facility issues without fear. Your identity remains protected.
           </p>
@@ -74,7 +84,7 @@ export default function Complaint() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
             >
-              <Card className="border-border/50 shadow-2xl">
+              <Card className="border-border/50 shadow-2xl bg-white/80 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle>File a New Report</CardTitle>
                   <CardDescription>
@@ -85,7 +95,6 @@ export default function Complaint() {
                   <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                       
-                      {/* New Name Field */}
                       <FormField
                         control={form.control}
                         name="name"

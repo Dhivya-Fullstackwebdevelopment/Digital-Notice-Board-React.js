@@ -6,6 +6,7 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import AddNotice from "./pages/AddNotice";
 import StudentLogin from "./pages/StudentLogin";
+import ComplaintDashboard from "./pages/ComplaintDashboard";
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
       </Route>
       <Route path="/admin/add-notice">
         {() => (localStorage.getItem("isAdmin") === "true" ? <AddNotice /> : <Redirect to="/admin" />)}
+      </Route>
+        <Route path="/admin/complaints">
+        {() => (localStorage.getItem("isAdmin") === "true" ? <ComplaintDashboard /> : <Redirect to="/admin" />)}
       </Route>
     </Switch>
   );
