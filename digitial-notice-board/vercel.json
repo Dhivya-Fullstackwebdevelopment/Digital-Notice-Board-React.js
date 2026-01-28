@@ -1,0 +1,11 @@
+{
+    "buildCommand": "cd digital-notice-board && npm install && npm run build",
+    "outputDirectory": "dist/public",
+    "framework": "vite",
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
+}
