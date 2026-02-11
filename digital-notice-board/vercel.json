@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd \"Digital Notice Board - react\" && npm install && npm run build",
+  "buildCommand": "cd \"digital-notice-board\" && npm install && npm run build",
   "outputDirectory": "dist/public",
   "framework": "vite",
   "rewrites": [
