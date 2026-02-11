@@ -1,6 +1,6 @@
 {
-  "buildCommand": "cd \"digital-notice-board\" && npm install && npm run build",
-  "outputDirectory": "dist/public",
+  "buildCommand": "npm install && npm run build",
+  "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
     {
